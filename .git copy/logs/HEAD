@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 0badf3b349c5801116f9b70ed053dc876f957e84 Techno <technomantraindia@gmail.com> 1781151575 +0530	commit (initial): Initial commit with premium UI, image updates, and animations
+0badf3b349c5801116f9b70ed053dc876f957e84 0000000000000000000000000000000000000000 Techno <technomantraindia@gmail.com> 1781151582 +0530	Branch: renamed refs/heads/master to refs/heads/main
+0000000000000000000000000000000000000000 0badf3b349c5801116f9b70ed053dc876f957e84 Techno <technomantraindia@gmail.com> 1781151582 +0530	Branch: renamed refs/heads/master to refs/heads/main
+0badf3b349c5801116f9b70ed053dc876f957e84 759191355aa21b9d51fbf2e18d6ed55a9548a623 Techno <technomantraindia@gmail.com> 1781152248 +0530	commit: Optimize process section static image selector on mobile view
+759191355aa21b9d51fbf2e18d6ed55a9548a623 cbb017e6952218dbe4ff09121f70e7bc2b7febf8 Techno <technomantraindia@gmail.com> 1781152927 +0530	commit: done
