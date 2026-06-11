@@ -670,15 +670,16 @@ body {
     margin-bottom: 50px;
   }
 
-  /* Force static process image behavior on mobile (only show first image) */
-  .p-img {
-    opacity: 0 !important;
-    transform: none !important;
-    transition: none !important;
+  /* Force static process image behavior on mobile (only show Stage 3 image) */
+  #pimg-3 {
+    opacity: 1 !important;
+    transform: scale(1) !important;
   }
 
-  #pimg-1 {
-    opacity: 1 !important;
+  #pimg-1,
+  #pimg-2,
+  #pimg-4 {
+    display: none !important;
   }
 
   .process-step {
