@@ -1414,8 +1414,8 @@ body {
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
   max-width: 1400px;
   margin: 0 auto;
   margin-top: 20px;
@@ -1496,10 +1496,164 @@ body {
 .products-grid .product-card:nth-child(4n+4) { transition-delay: 0.3s; }
 
 /* Staggered Transition Delays for Gallery Grid */
-.gallery-grid .gallery-item:nth-child(4n+1) { transition-delay: 0s; }
-.gallery-grid .gallery-item:nth-child(4n+2) { transition-delay: 0.1s; }
-.gallery-grid .gallery-item:nth-child(4n+3) { transition-delay: 0.2s; }
-.gallery-grid .gallery-item:nth-child(4n+4) { transition-delay: 0.3s; }
+.gallery-grid .gallery-item:nth-child(3n+1) { transition-delay: 0s; }
+.gallery-grid .gallery-item:nth-child(3n+2) { transition-delay: 0.1s; }
+.gallery-grid .gallery-item:nth-child(3n+3) { transition-delay: 0.2s; }
+
+/* Lightbox Modal for Gallery */
+.gallery-item {
+  cursor: pointer;
+}
+
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(10, 8, 5, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 85%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 183, 0, 0.15);
+  transform: scale(0.97);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  object-fit: contain;
+}
+
+.lightbox.active .lightbox-content img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+#lightbox-caption {
+  margin-top: 15px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  color: #fff;
+  font-size: 45px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s, background-color 0.2s;
+  z-index: 10000;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.lightbox-close:hover {
+  color: var(--primary-color);
+  transform: scale(1.1) rotate(90deg);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 10000;
+}
+
+.lightbox-prev {
+  left: 40px;
+}
+
+.lightbox-next {
+  right: 40px;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  background: var(--primary-color);
+  color: #000;
+  border-color: var(--primary-color);
+  transform: translateY(-50%) scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .lightbox-close {
+    top: 20px;
+    right: 20px;
+    font-size: 35px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .lightbox-prev {
+    left: 15px;
+  }
+  
+  .lightbox-next {
+    right: 15px;
+  }
+
+  .lightbox-prev,
+  .lightbox-next {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+
+  .lightbox-content {
+    max-width: 95%;
+  }
+}
 
 /* Staggered Transition Delays for Choose Features */
 .choose-features .choose-feature-card:nth-child(2n+1) { transition-delay: 0s; }
@@ -5413,4 +5567,106 @@ footer {
   .card-address {
     font-size: 0.88rem;
   }
+}
+
+/* Premium micro-interactions & Keyframe Animations */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* Floating Badges */
+.ck-floating-badge {
+  animation: float 4s ease-in-out infinite !important;
+}
+
+.experience-badge {
+  animation: float 4s ease-in-out infinite 1.5s !important;
+}
+
+.ck-trust-core {
+  animation: float 5s ease-in-out infinite !important;
+}
+
+/* Premium Button Sweep Shine Animation */
+.btn, .cta-btn-solid, .submit-btn-premium, .cta-btn-outline, .ck-ghost-btn {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.btn::after, .cta-btn-solid::after, .submit-btn-premium::after, .cta-btn-outline::after, .ck-ghost-btn::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: -100% !important;
+  width: 50% !important;
+  height: 100% !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+  transform: skewX(-25deg) !important;
+  transition: none !important;
+  pointer-events: none !important;
+}
+
+.btn:hover::after, .cta-btn-solid:hover::after, .submit-btn-premium:hover::after, .cta-btn-outline:hover::after, .ck-ghost-btn:hover::after {
+  animation: shine-sweep 1s ease-out forwards !important;
+}
+
+@keyframes shine-sweep {
+  0% { left: -100%; }
+  100% { left: 125%; }
+}
+
+/* Staggered transition delays for material track (6 items) */
+.ck-material-track .ck-material-card:nth-child(6n+1) { transition-delay: 0s; }
+.ck-material-track .ck-material-card:nth-child(6n+2) { transition-delay: 0.05s; }
+.ck-material-track .ck-material-card:nth-child(6n+3) { transition-delay: 0.1s; }
+.ck-material-track .ck-material-card:nth-child(6n+4) { transition-delay: 0.15s; }
+.ck-material-track .ck-material-card:nth-child(6n+5) { transition-delay: 0.2s; }
+.ck-material-track .ck-material-card:nth-child(6n+6) { transition-delay: 0.25s; }
+
+/* Staggered transition delays for product catalog cards (2 items) */
+.ck-product-catalog .ck-catalog-card:nth-child(2n+1) { transition-delay: 0s; }
+.ck-product-catalog .ck-catalog-card:nth-child(2n+2) { transition-delay: 0.15s; }
+
+/* Page-Load Animations for Hero Elements */
+.ck-hero-copy.reveal, .ck-products-hero-copy.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ck-hero-copy.reveal-up {
+  animation-delay: 0.1s;
+}
+
+/* Let's animate child elements for a staggered, extremely premium landing */
+.ck-hero-copy > span, .ck-products-hero-copy > span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.ck-hero-copy > h1, .ck-products-hero-copy > h1 {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.ck-hero-copy > p, .ck-products-hero-copy > p {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.ck-hero-actions, .ck-products-actions {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
 }

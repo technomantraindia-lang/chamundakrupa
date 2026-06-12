@@ -316,4 +316,91 @@ document.addEventListener("DOMContentLoaded", function() {
             successOverlay.classList.remove('active');
         });
     }
+
+    // Lightbox Functionality for Gallery Grid
+    const galleryItems = document.querySelectorAll('.gallery-grid .gallery-item');
+    const lightbox = document.getElementById('gallery-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxClose = document.querySelector('.lightbox-close');
+    const lightboxPrev = document.querySelector('.lightbox-prev');
+    const lightboxNext = document.querySelector('.lightbox-next');
+
+    if (galleryItems.length > 0 && lightbox && lightboxImg) {
+        let currentIndex = 0;
+        const imagesList = Array.from(galleryItems).map(item => {
+            const img = item.querySelector('img');
+            return {
+                src: img.getAttribute('src'),
+                alt: img.getAttribute('alt') || 'Project Supply Preview'
+            };
+        });
+
+        function showImage(index) {
+            if (index < 0) index = imagesList.length - 1;
+            if (index >= imagesList.length) index = 0;
+            currentIndex = index;
+            
+            // Temporary fade out before source change
+            lightboxImg.style.opacity = '0';
+            lightboxImg.style.transform = 'scale(0.97)';
+            
+            setTimeout(() => {
+                lightboxImg.setAttribute('src', imagesList[currentIndex].src);
+                lightboxImg.setAttribute('alt', imagesList[currentIndex].alt);
+                lightboxCaption.textContent = imagesList[currentIndex].alt;
+                
+                // Trigger transition after image source is loaded
+                setTimeout(() => {
+                    lightboxImg.style.opacity = '1';
+                    lightboxImg.style.transform = 'scale(1)';
+                }, 50);
+            }, 150);
+        }
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // prevent scrolling underneath
+                showImage(index);
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; // restore scrolling
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        
+        // Close on background click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
+                closeLightbox();
+            }
+        });
+
+        lightboxPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showImage(currentIndex - 1);
+        });
+
+        lightboxNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showImage(currentIndex + 1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowLeft') {
+                showImage(currentIndex - 1);
+            } else if (e.key === 'ArrowRight') {
+                showImage(currentIndex + 1);
+            }
+        });
+    }
 });
