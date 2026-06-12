@@ -1457,6 +1457,8 @@ body {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
 @media (max-width: 600px) {
   .gallery-grid {
     grid-template-columns: 1fr;
@@ -1506,8 +1508,8 @@ body {
 /* CTA Section */
 .cta-section {
   position: relative;
-  padding: 40px 50px 30px 50px;
-  background-color: #1a1a1a;
+  padding: 90px 50px;
+  background-color: #111;
   overflow: hidden;
   margin: 0;
 }
@@ -1520,8 +1522,13 @@ body {
   bottom: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.3;
+  opacity: 0.25;
   z-index: 1;
+  transition: transform 6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-section:hover .cta-bg {
+  transform: scale(1.08);
 }
 
 .cta-overlay {
@@ -1530,7 +1537,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, rgba(20, 15, 10, 1) 0%, rgba(40, 30, 10, 0.85) 50%, rgba(20, 15, 10, 1) 100%);
+  background: linear-gradient(135deg, rgba(12, 10, 8, 0.95) 0%, rgba(26, 22, 15, 0.88) 50%, rgba(12, 10, 8, 0.95) 100%);
   z-index: 2;
 }
 
@@ -1541,26 +1548,43 @@ body {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 50px;
   justify-content: space-between;
 }
 
 .cta-icon-badge {
-  background-color: var(--primary-color);
+  background-color: rgba(255, 183, 0, 0.1);
+  border: 2px solid var(--primary-color);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   width: 100px;
   height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-  color: #111;
+  color: var(--primary-color);
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   flex-shrink: 0;
-  transition: transform 0.4s ease;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: ctaBadgeFloat 4s ease-in-out infinite;
+  box-shadow: 0 10px 30px rgba(255, 183, 0, 0.15);
+}
+
+@keyframes ctaBadgeFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .cta-section:hover .cta-icon-badge {
-  transform: scale(1.05) rotate(10deg);
+  transform: scale(1.08) rotate(15deg);
+  background-color: var(--primary-color);
+  color: #111;
+  box-shadow: 0 15px 35px rgba(255, 183, 0, 0.45);
 }
 
 .cta-content {
@@ -1568,17 +1592,37 @@ body {
   color: #fff;
 }
 
-.cta-content h2 {
-  font-size: 2rem;
+.cta-tagline {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 12px;
   font-weight: 700;
-  margin-bottom: 10px;
-  color: #fff;
+  text-transform: uppercase;
 }
 
-.cta-content p {
-  font-size: 1.1rem;
-  color: #ccc;
-  max-width: 800px;
+.cta-content h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #fff;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+}
+
+.highlight-yellow {
+  color: var(--primary-color);
+  background: linear-gradient(90deg, #ffb700 0%, #ffd043 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta-desc {
+  font-size: 1.15rem;
+  color: #d1cfcb;
+  max-width: 750px;
+  line-height: 1.75;
 }
 
 .cta-buttons {
@@ -1592,31 +1636,38 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 12px 25px;
-  border-radius: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cta-btn-outline {
-  border: 1px solid rgba(255, 183, 0, 0.5);
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .cta-btn-outline:hover {
   border-color: var(--primary-color);
   background: rgba(255, 183, 0, 0.1);
-  transform: translateY(-3px);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(255, 183, 0, 0.15);
 }
 
 .cta-btn-outline .cta-btn-icon {
   color: var(--primary-color);
   font-size: 1.8rem;
+  transition: transform 0.3s ease;
+}
+
+.cta-btn-outline:hover .cta-btn-icon {
+  transform: scale(1.15) rotate(-10deg);
 }
 
 .cta-btn-outline .btn-sub {
-  color: #aaa;
+  color: #b0aba4;
   display: block;
   font-size: 0.8rem;
   margin-bottom: 2px;
@@ -1631,32 +1682,42 @@ body {
 .cta-btn-solid {
   background: var(--primary-color);
   color: #111;
-  box-shadow: 0 5px 15px rgba(255, 183, 0, 0.3);
+  box-shadow: 0 5px 20px rgba(255, 183, 0, 0.3);
 }
 
 .cta-btn-solid:hover {
-  background: var(--primary-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255, 183, 0, 0.4);
+  background: #fff;
+  color: #111;
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(255, 255, 255, 0.25);
 }
 
 .cta-btn-solid .cta-btn-icon {
   color: #111;
-  font-size: 2rem;
+  font-size: 1.8rem;
+  transition: transform 0.3s ease;
+}
+
+.cta-btn-solid:hover .cta-btn-icon {
+  transform: translateX(3px) scale(1.1);
 }
 
 .cta-btn-solid .btn-sub {
-  color: #333;
+  color: #4b4438;
   display: block;
   font-size: 0.8rem;
   margin-bottom: 2px;
   font-weight: 600;
 }
 
+.cta-btn-solid:hover .btn-sub {
+  color: #555;
+}
+
 .cta-btn-solid .btn-main {
   color: #111;
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 
 .about-hero {
@@ -2321,23 +2382,30 @@ footer {
   }
 
   .cta-section {
-    padding: 40px 20px 30px 20px;
+    padding: 70px 24px;
   }
 
   .cta-container {
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
   }
 
   .cta-buttons {
     flex-direction: column;
     width: 100%;
+    gap: 15px;
   }
 
   .cta-btn-outline,
   .cta-btn-solid {
     width: 100%;
     justify-content: center;
+    padding: 12px 24px;
   }
 }
 
@@ -2398,21 +2466,23 @@ footer {
   }
 
   .cta-section {
-    padding: 30px 15px 25px 15px;
+    padding: 50px 16px;
   }
 
   .cta-icon-badge {
     width: 80px;
     height: 80px;
-    font-size: 2.5rem;
+    font-size: 2.3rem;
   }
 
   .cta-content h2 {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
+    line-height: 1.3;
   }
 
   .cta-content p {
-    font-size: 0.95rem;
+    font-size: 1rem;
+    line-height: 1.6;
   }
 
   .experience-badge {
@@ -4775,6 +4845,9 @@ footer {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 4px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .card-value a {
@@ -5304,5 +5377,40 @@ footer {
   .ck-map-frame-wrapper {
     aspect-ratio: 4 / 3;
     min-height: 300px;
+  }
+}
+
+@media (max-width: 500px) {
+  .ck-info-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+    gap: 15px;
+    border-radius: 16px;
+  }
+  
+  .card-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+
+  .card-details h3 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+
+  .card-value {
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  
+  .card-hint {
+    font-size: 0.8rem;
+    margin-top: 4px;
+  }
+
+  .card-address {
+    font-size: 0.88rem;
   }
 }
