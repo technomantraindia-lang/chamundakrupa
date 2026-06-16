@@ -245,8 +245,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const phoneInput = document.getElementById('user-phone');
             const emailInput = document.getElementById('user-email');
             const materialSelect = document.getElementById('material-select');
-            const qtyInput = document.getElementById('material-quantity');
-            const locationInput = document.getElementById('delivery-location');
 
             // Name check
             if (!nameInput.value.trim()) {
@@ -269,18 +267,6 @@ document.addEventListener("DOMContentLoaded", function() {
             // Material select check
             if (!materialSelect.value) {
                 materialSelect.closest('.form-group').classList.add('invalid');
-                hasErrors = true;
-            }
-
-            // Quantity check
-            if (!qtyInput.value.trim()) {
-                qtyInput.closest('.form-group').classList.add('invalid');
-                hasErrors = true;
-            }
-
-            // Location check
-            if (!locationInput.value.trim()) {
-                locationInput.closest('.form-group').classList.add('invalid');
                 hasErrors = true;
             }
 
