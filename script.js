@@ -228,15 +228,6 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
-        const requestedMaterial = new URLSearchParams(window.location.search).get('material');
-        const materialSelect = document.getElementById('material-select');
-        if (requestedMaterial && materialSelect) {
-            const matchingOption = Array.from(materialSelect.options).find(option => option.value === requestedMaterial);
-            if (matchingOption) {
-                materialSelect.value = requestedMaterial;
-            }
-        }
-
         quoteForm.addEventListener('submit', function(e) {
             e.preventDefault();
             let hasErrors = false;
@@ -244,7 +235,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const nameInput = document.getElementById('user-name');
             const phoneInput = document.getElementById('user-phone');
             const emailInput = document.getElementById('user-email');
-            const materialSelect = document.getElementById('material-select');
 
             // Name check
             if (!nameInput.value.trim()) {
@@ -261,12 +251,6 @@ document.addEventListener("DOMContentLoaded", function() {
             // Email check (optional but must be valid if filled)
             if (emailInput.value.trim() && !isValidEmail(emailInput.value.trim())) {
                 emailInput.closest('.form-group').classList.add('invalid');
-                hasErrors = true;
-            }
-
-            // Material select check
-            if (!materialSelect.value) {
-                materialSelect.closest('.form-group').classList.add('invalid');
                 hasErrors = true;
             }
 
