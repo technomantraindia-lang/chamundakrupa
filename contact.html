@@ -116,7 +116,9 @@
                             <p>Fill out the form below to receive a detailed quote tailored to your site requirements.</p>
                         </div>
                         
-                        <form id="ck-quote-form" novalidate>
+                        <form id="ck-quote-form" action="send-inquiry.php" method="post" novalidate>
+                            <input type="hidden" id="requested-material" name="requested_material" value="">
+                            <input type="checkbox" name="botcheck" class="form-botcheck-field" tabindex="-1" autocomplete="off">
                             <div class="form-grid">
                                 <div class="form-group floating-input-group">
                                     <input type="text" id="user-name" name="name" required placeholder=" ">
@@ -148,6 +150,8 @@
                                     <span></span><span></span><span></span>
                                 </span>
                             </button>
+
+                            <p class="form-submit-message" id="form-submit-message" aria-live="polite"></p>
                         </form>
 
                         <!-- Success Overlay / Message -->

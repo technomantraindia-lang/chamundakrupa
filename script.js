@@ -201,6 +201,22 @@ document.addEventListener("DOMContentLoaded", function() {
     if (quoteForm && successOverlay) {
         const submitBtn = quoteForm.querySelector('.submit-btn-premium');
         const closeSuccessBtn = successOverlay.querySelector('.close-success-btn');
+        const submitMessage = document.getElementById('form-submit-message');
+        const requestedMaterialInput = document.getElementById('requested-material');
+        const queryParams = new URLSearchParams(window.location.search);
+        const materialParam = queryParams.get('material');
+        const statusParam = queryParams.get('status');
+
+        if (requestedMaterialInput && materialParam) {
+            requestedMaterialInput.value = materialParam;
+        }
+
+        if (statusParam === 'success') {
+            successOverlay.classList.add('active');
+            window.history.replaceState({}, document.title, window.location.pathname + (materialParam ? `?material=${encodeURIComponent(materialParam)}` : ''));
+        } else if (statusParam === 'error' && submitMessage) {
+            submitMessage.textContent = 'We could not send your inquiry right now. Please try again in a moment.';
+        }
         
         // Helper to validate email format
         function isValidEmail(email) {
@@ -218,23 +234,34 @@ document.addEventListener("DOMContentLoaded", function() {
         const inputs = quoteForm.querySelectorAll('input, select, textarea');
         inputs.forEach(input => {
             const group = input.closest('.form-group');
-            if (!group) return;
 
-            // Clear errors when the user interacts
             ['input', 'change', 'focus'].forEach(evtType => {
                 input.addEventListener(evtType, () => {
-                    group.classList.remove('invalid');
+                    if (group) {
+                        group.classList.remove('invalid');
+                    }
+
+                    if (submitMessage) {
+                        submitMessage.textContent = '';
+                        submitMessage.classList.remove('is-success');
+                    }
                 });
             });
         });
 
-        quoteForm.addEventListener('submit', function(e) {
+        quoteForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             let hasErrors = false;
 
             const nameInput = document.getElementById('user-name');
             const phoneInput = document.getElementById('user-phone');
             const emailInput = document.getElementById('user-email');
+            const messageInput = document.getElementById('additional-message');
+
+            if (submitMessage) {
+                submitMessage.textContent = '';
+                submitMessage.classList.remove('is-success');
+            }
 
             // Name check
             if (!nameInput.value.trim()) {
@@ -263,22 +290,60 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // If valid, start submit animation
             submitBtn.classList.add('submitting');
+            if (submitMessage) {
+                submitMessage.textContent = 'Sending your request...';
+                submitMessage.classList.add('is-success');
+            }
 
-            // Simulate form submission API call
-            setTimeout(() => {
-                // Done loading
+            const formData = new FormData(quoteForm);
+            const rawPhone = phoneInput.value.trim();
+            formData.set('phone', rawPhone.replace(/\D/g, ''));
+            if (emailInput.value.trim()) {
+                formData.set('replyto', emailInput.value.trim());
+            }
+
+            if (!messageInput.value.trim() && materialParam) {
+                formData.set('message', `Requested material: ${materialParam}`);
+            }
+
+            try {
+                const response = await fetch(quoteForm.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                });
+
+                const result = await response.json().catch(() => ({
+                    success: false,
+                    message: 'Unable to send your request right now.'
+                }));
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.message || 'Unable to send your request right now.');
+                }
+                
                 submitBtn.classList.remove('submitting');
-                
-                // Show success screen
                 successOverlay.classList.add('active');
-                
-                // Reset form fields
+                if (submitMessage) {
+                    submitMessage.textContent = '';
+                    submitMessage.classList.remove('is-success');
+                }
                 quoteForm.reset();
-                // Trigger label check for floating inputs
+                if (requestedMaterialInput && materialParam) {
+                    requestedMaterialInput.value = materialParam;
+                }
                 inputs.forEach(input => {
                     input.dispatchEvent(new Event('input', { bubbles: true }));
                 });
-            }, 1800);
+            } catch (error) {
+                submitBtn.classList.remove('submitting');
+                if (submitMessage) {
+                    submitMessage.textContent = error.message || 'Something went wrong. Please try again in a moment.';
+                    submitMessage.classList.remove('is-success');
+                }
+            }
         });
 
         // Close success notification screen

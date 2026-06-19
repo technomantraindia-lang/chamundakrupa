@@ -5379,6 +5379,22 @@ footer {
   display: flex;
 }
 
+.form-botcheck-field {
+  display: none !important;
+}
+
+.form-submit-message {
+  min-height: 1.5rem;
+  margin: 16px 2px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #b42318;
+}
+
+.form-submit-message.is-success {
+  color: #2f6f25;
+}
+
 @keyframes ck-dot-pulse {
   0%, 100% {
     transform: scale(0.35);
