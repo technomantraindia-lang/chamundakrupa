@@ -1,11 +1,70 @@
 // script.js
 document.addEventListener("DOMContentLoaded", function() {
+    function initializeDynamicHeader() {
+        const header = document.querySelector('.main-header');
+        if (!header) return;
+
+        const menuToggle = header.querySelector('.mobile-menu-toggle');
+        const nav = header.querySelector('.centered-nav');
+        const primaryNavLinks = header.querySelectorAll('nav ul a');
+        const navLinks = header.querySelectorAll('nav a');
+        const backdrop = document.querySelector('.mobile-nav-backdrop');
+        const desktopBreakpoint = window.matchMedia('(min-width: 769px)');
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+        primaryNavLinks.forEach(link => {
+            const linkPage = new URL(link.href, window.location.href).pathname.split('/').pop() || 'index.html';
+
+            if (linkPage === currentPage) {
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+            }
+        });
+
+        if (!menuToggle || !nav || !backdrop) return;
+
+        const setMenuState = (isOpen) => {
+            header.classList.toggle('menu-open', isOpen);
+            document.body.classList.toggle('menu-open', isOpen);
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+            menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+            backdrop.hidden = !isOpen;
+        };
+
+        const closeMenu = () => setMenuState(false);
+
+        menuToggle.addEventListener('click', () => {
+            setMenuState(!header.classList.contains('menu-open'));
+        });
+
+        backdrop.addEventListener('click', closeMenu);
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && header.classList.contains('menu-open')) {
+                closeMenu();
+            }
+        });
+
+        desktopBreakpoint.addEventListener('change', (event) => {
+            if (event.matches) {
+                closeMenu();
+            }
+        });
+    }
+
     // Load Header
     fetch("header.html?t=" + new Date().getTime())
         .then(response => response.text())
         .then(data => {
             const placeholder = document.getElementById("header-placeholder");
-            if (placeholder) placeholder.innerHTML = data;
+            if (placeholder) {
+                placeholder.innerHTML = data;
+                initializeDynamicHeader();
+            }
         })
         .catch(err => console.error("Error loading header:", err));
 
