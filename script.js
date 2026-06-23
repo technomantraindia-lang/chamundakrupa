@@ -368,9 +368,6 @@ document.addEventListener("DOMContentLoaded", function() {
             try {
                 const response = await fetch(quoteForm.action, {
                     method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
                     body: formData
                 });
 

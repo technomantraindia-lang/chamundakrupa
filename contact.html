@@ -118,7 +118,10 @@
                             <p>Fill out the form below to receive a detailed quote tailored to your site requirements.</p>
                         </div>
                         
-                        <form id="ck-quote-form" action="send-inquiry.php" method="post" novalidate>
+                        <form id="ck-quote-form" action="https://api.web3forms.com/submit" method="post" novalidate>
+                            <input type="hidden" name="access_key" value="ab759716-b1c9-4673-90e1-d86ef7dc6899">
+                            <input type="hidden" name="from_name" value="Chamunda Krupa Enterprise">
+                            <input type="hidden" name="subject" value="Chamunda Krupa Enterprise - New Contact Form Inquiry">
                             <input type="hidden" id="requested-material" name="requested_material" value="">
                             <input type="checkbox" name="botcheck" class="form-botcheck-field" tabindex="-1" autocomplete="off">
                             <div class="form-grid">
